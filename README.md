@@ -1,6 +1,3 @@
-Certainly! Here’s a more detailed and professional `README.md` tailored for your `quick-cli-notes` package, formatted to highlight the new features and provide comprehensive information:
-
----
 
 # Quick CLI Notes
 
