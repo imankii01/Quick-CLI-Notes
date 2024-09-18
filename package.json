@@ -1,0 +1,14 @@
+{
+  "name": "quick-cli-notes",
+  "version": "1.0.0",
+  "description": "A simple CLI tool to manage notes",
+  "main": "lib/notes.js",
+  "type": "module",
+  "bin": {
+    "quicknote": "bin/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^7.0.0"
+  }
+}
