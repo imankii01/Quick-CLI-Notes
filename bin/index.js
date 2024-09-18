@@ -1,53 +1,202 @@
 #!/usr/bin/env node
 
-import { program } from 'commander';
-import chalk from 'chalk';
-import { listNotes, addNote, removeNote, editNote, searchNotes } from '../lib/notes.js';
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+import {
+  addNote,
+  listNotes,
+  searchNotes,
+  exportNotes,
+  importNotes,
+  integrateService
+} from "../lib/notes.js";
+import chalk from "chalk";
+import { table } from "table";
 
-program.version('1.0.0').description('Quick CLI Notes App');
+dotenv.config();
 
-// Command to add a note with optional tag and priority
-program
-  .command('add <note>')
-  .description('Add a new note with an optional tag and priority')
-  .option('--tag <tag>', 'Tag for the note', 'general')
-  .option('--priority <priority>', 'Priority of the note (low, medium, high)', 'low')
-  .action((note, options) => {
-    addNote(note, options.tag, options.priority);
-  });
+const client = new MongoClient(process.env.MONGODB_URI);
+const db = client.db("quick-cli-notes");
 
-// Command to list all notes or filter by tag/priority
-program
-  .command('list')
-  .description('List all notes or filter by tag/priority')
-  .option('--tag <tag>', 'Filter notes by tag')
-  .option('--priority <priority>', 'Filter notes by priority')
-  .action((options) => {
-    listNotes(options.tag, options.priority);
-  });
+const command = process.argv[2];
+const args = process.argv.slice(3);
 
-// Command to remove a note by its index
-program
-  .command('remove <index>')
-  .description('Remove a note by its index')
-  .action((index) => {
-    removeNote(index);
-  });
+const displayHelp = () => {
+  console.log(chalk.blueBright("Quick CLI Notes - Command Line Interface"));
+  console.log("");
+  console.log(chalk.green("Commands:"));
+  console.log("  add <content> [options]        Add a new note");
+  console.log("  list                           List all notes");
+  console.log(
+    "  search <query>                 Search for notes containing the query"
+  );
+  console.log(
+    "  export <format>                Export notes to a file (json or csv)"
+  );
+  console.log("  import <file>                  Import notes from a file");
+  console.log(
+    "  integrate <service>            Integrate with a service (e.g., google-calendar)"
+  );
+  console.log("");
+  console.log(chalk.yellow("Options:"));
+  console.log("  --tag <tag>                    Tag for the note");
+  console.log(
+    "  --priority <priority>          Priority of the note (e.g., low, normal, high)"
+  );
+  console.log("  --category <category>          Category of the note");
+  console.log("  --subcategory <subcategory>    Subcategory of the note");
+  console.log(
+    "  --due <date>                   Due date for the note in YYYY-MM-DD format"
+  );
+};
 
-// Command to edit a note by its index
-program
-  .command('edit <index> <newText>')
-  .description('Edit an existing note by index')
-  .action((index, newText) => {
-    editNote(index, newText);
-  });
+const executeCommand = async () => {
+  try {
+    await client.connect();
 
-// Command to search for notes by a keyword
-program
-  .command('search <keyword>')
-  .description('Search for notes containing a keyword')
-  .action((keyword) => {
-    searchNotes(keyword);
-  });
+    switch (command) {
+      case "add":
+        await addNote(db, ...args);
+        console.log(chalk.green("Note added successfully."));
+        break;
+      case "list":
+        const notes = await listNotes(db);
+        console.log(
+          table(
+            [
+              [
+                "Content",
+                "Tags",
+                "Priority",
+                "Category",
+                "Subcategory",
+                "Due Date",
+                "Created At"
+              ],
+              ...notes.map((note) => [
+                note.content,
+                note.tags,
+                note.priority,
+                note.category,
+                note.subcategory,
+                note.due,
+                note.createdAt ? note.createdAt.toISOString() : ""
+              ])
+            ],
+            {
+              columnDefault: {
+                alignment: "left"
+              },
+              columns: {
+                0: {
+                  width: 30
+                },
+                1: {
+                  width: 15
+                },
+                2: {
+                  width: 10
+                },
+                3: {
+                  width: 15
+                },
+                4: {
+                  width: 15
+                },
+                5: {
+                  width: 12
+                },
+                6: {
+                  width: 25
+                }
+              }
+            }
+          )
+        );
+        break;
+      case "search":
+        const searchResults = await searchNotes(db, ...args);
+        console.log(
+          table(
+            [
+              [
+                "Content",
+                "Tags",
+                "Priority",
+                "Category",
+                "Subcategory",
+                "Due Date",
+                "Created At"
+              ],
+              ...searchResults.map((note) => [
+                note.content,
+                note.tags,
+                note.priority,
+                note.category,
+                note.subcategory,
+                note.due,
+                note.createdAt ? note.createdAt.toISOString() : ""
+              ])
+            ],
+            {
+              columnDefault: {
+                alignment: "left"
+              },
+              columns: {
+                0: {
+                  width: 30
+                },
+                1: {
+                  width: 15
+                },
+                2: {
+                  width: 10
+                },
+                3: {
+                  width: 15
+                },
+                4: {
+                  width: 15
+                },
+                5: {
+                  width: 12
+                },
+                6: {
+                  width: 25
+                }
+              }
+            }
+          )
+        );
+        break;
+      case "export":
+        await exportNotes(db, ...args);
+        console.log(chalk.green("Notes exported successfully."));
+        break;
+      case "import":
+        await importNotes(db, ...args);
+        console.log(chalk.green("Notes imported successfully."));
+        break;
+      case "integrate":
+        await integrateService(...args);
+        console.log(chalk.green("Integration successful."));
+        break;
+      case "help":
+        displayHelp();
+        break;
+      default:
+        console.log(
+          chalk.yellow(
+            'Unknown command. Use "quicknote help" for a list of commands.'
+          )
+        );
+        break;
+    }
+  } catch (err) {
+    console.error(chalk.red("Error:"), err.message);
+  } finally {
+    await client.close();
+  }
+};
 
-program.parse(process.argv);
+executeCommand();

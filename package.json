@@ -1,24 +1,21 @@
 {
   "name": "quick-cli-notes",
-  "version": "1.1.1",
-  "description": "A simple and advanced CLI tool to manage notes",
-  "type": "module",
-  "main": "lib/notes.js",
+  "version": "1.1.0",
+  "description": "A CLI tool for managing notes",
+  "main": "bin/index.js",
   "bin": {
     "quicknote": "bin/index.js"
   },
   "scripts": {
     "start": "node bin/index.js"
   },
-  "keywords": [
-    "CLI",
-    "notes",
-    "productivity"
-  ],
   "dependencies": {
     "chalk": "^5.0.0",
-    "commander": "^10.0.0",
-    "dotenv": "^16.4.5",
-    "mongodb": "^6.9.0"
-  }
+    "mongodb": "^5.0.0",
+    "dotenv": "^16.0.0",
+    "table": "^6.0.0"
+  },
+  "type": "module",
+  "author": "Ankit",
+  "license": "MIT"
 }
