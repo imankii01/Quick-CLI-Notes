@@ -1,191 +1,200 @@
 
-# Quick CLI Notes
 
-**Quick CLI Notes** is an advanced command-line interface (CLI) tool designed to streamline your note management experience. With a host of powerful features, Quick CLI Notes helps you organize, categorize, and track your notes effectively. This tool is perfect for individuals and teams who require a robust CLI solution for managing their notes and tasks.
+# 📓 **Quick CLI Notes**
 
-## 🆕 New Features in Version 1.1.1
+`quick-cli-notes` is a sophisticated command-line interface (CLI) tool for efficient note management and task organization. With a suite of powerful features, this tool is designed to help you stay organized, productive, and in control of your tasks.
 
-### 📂 Note Categories and Subcategories
+## 🚀 **Version 1.1.1**
 
-Organize your notes into custom categories and subcategories for enhanced management and retrieval.
+This version includes new features, enhancements, and fixes to improve your experience with note management.
 
-### 🏷️ Tagging and Multi-Tag Support
+## 📑 **Table of Contents**
 
-Assign multiple tags to your notes and filter them based on these tags to quickly find relevant information.
+- [🌟 Features](#-features)
+  - [📝 Add Notes](#-add-notes)
+  - [📜 List Notes](#-list-notes)
+  - [🔍 Search Notes](#-search-notes)
+  - [📤 Export Notes](#-export-notes)
+  - [📥 Import Notes](#-import-notes)
+  - [🔗 Integration](#-integration)
+  - [❓ Help](#-help)
+- [📦 Installation](#-installation)
+- [🔧 Configuration](#-configuration)
+  - [Environment Variables](#environment-variables)
+- [🛠️ Development and Contribution](#-development-and-contribution)
+- [📜 License](#-license)
+- [📧 Contact](#-contact)
 
-### ⚡ Priority Levels and Sorting
+## 🌟 **Features**
 
-Set priority levels for your notes and sort them by priority or creation date to focus on what matters most.
+### 📝 **Add Notes**
 
-### ⏰ Due Dates and Reminders
+Create new notes with extensive customization options. Tailor each note with tags, priority levels, categories, and due dates to keep your tasks organized.
 
-Assign due dates to your notes and receive timely reminders to keep track of important deadlines.
+- **Command:**
 
-### 🔄 Note History and Versioning
+  ```bash
+  quicknote add "<content>" [options]
+  ```
 
-Track changes to your notes with version history, allowing you to view and revert to previous versions if needed.
+- **Options:**
 
-### 📥 Export and Import Notes
+  - `--tag <tag>`: Assign tags to categorize your note.
+  - `--priority <priority>`: Set the priority level (`low`, `normal`, `high`).
+  - `--category <category>`: Specify a category for better organization.
+  - `--subcategory <subcategory>`: Further classify the note under a subcategory.
+  - `--due <date>`: Set a due date in `YYYY-MM-DD` format.
 
-Export your notes in JSON or CSV formats for backup or sharing, and import notes from files to integrate them into your CLI tool.
+- **Example:**
 
-### 🔐 User Authentication and Multi-User Support
+  ```bash
+  quicknote add "Meeting with team at 10 AM" --tag work --priority high --category work --subcategory meetings --due "2024-10-01"
+  ```
 
-Enhance security with user authentication and manage notes across multiple users with ease.
+### 📜 **List Notes**
 
-### 🌐 Integration with External Services
+Display all your notes in a neatly formatted table, including details such as content, tags, priority, category, and due dates.
 
-Seamlessly integrate with popular services like Google Calendar, Trello, and Slack to synchronize your notes with your workflow.
+- **Command:**
 
-### 🎨 Customizable Themes and Color Schemes
+  ```bash
+  quicknote list
+  ```
 
-Personalize the look and feel of your CLI tool with customizable themes and color schemes to match your preferences.
+### 🔍 **Search Notes**
 
-### 🔍 Advanced Search and Filtering
+Find specific notes using keywords. This feature is essential for quickly locating relevant information amidst a large number of notes.
 
-Perform detailed searches and apply filters to find specific notes based on various criteria, including tags, dates, and content.
+- **Command:**
 
-### 📊 Notes Analytics and Insights
+  ```bash
+  quicknote search "<query>"
+  ```
 
-Access analytics to gain insights into your note usage, helping you understand trends and improve productivity.
+### 📤 **Export Notes**
 
-### 💾 Backup and Restore Functionality
+Export your notes to various formats for backup, sharing, or processing. This ensures that your data is safe and easily accessible.
 
-Backup your notes and restore them as needed to safeguard against data loss.
+- **Commands:**
 
-### ⌨️ CLI Aliases and Custom Commands
+  - **To JSON:**
 
-Create aliases and custom commands to streamline your workflow and enhance efficiency.
+    ```bash
+    quicknote export json
+    ```
 
-### 🌍 Localization and Internationalization
+  - **To CSV:**
 
-Support for multiple languages and regional settings to cater to a global user base.
+    ```bash
+    quicknote export csv
+    ```
 
-## 🚀 Installation
+### 📥 **Import Notes**
 
-To install `quick-cli-notes` globally on your system, run the following command:
+Import notes from external files to integrate or restore your data. This feature supports both JSON and CSV formats.
+
+- **Commands:**
+
+  - **From JSON:**
+
+    ```bash
+    quicknote import notes_export.json
+    ```
+
+  - **From CSV:**
+
+    ```bash
+    quicknote import notes_export.csv
+    ```
+
+### 🔗 **Integration**
+
+Seamlessly connect with external services like Google Calendar. This integration will help synchronize your notes with your calendar for better task management.
+
+- **Command:**
+
+  ```bash
+  quicknote integrate google-calendar
+  ```
+
+### ❓ **Help**
+
+Get a detailed list of available commands and their usage to fully leverage the capabilities of `quick-cli-notes`.
+
+- **Command:**
+
+  ```bash
+  quicknote help
+  ```
+
+## 📦 **Installation**
+
+To install `quick-cli-notes`, use npm to install it globally on your system:
 
 ```bash
 npm install -g quick-cli-notes
 ```
 
-## ⚙️ Usage
+## 🔧 **Configuration**
 
-### Adding a Note
+### **Environment Variables**
 
-Add a new note with optional tags, priority, category, subcategory, and due date:
+Create a `.env` file in the root directory of your project to configure the tool:
 
-```bash
-quicknote add "Meeting with team at 10 AM" --tag work --priority high --category work --subcategory team --due "2024-09-30"
+- **Variables:**
+  - `MONGODB_URI`: Your MongoDB connection string.
+
+**Example `.env` file:**
+
+```
+MONGODB_URI=mongodb://your-mongodb-uri
 ```
 
-### Listing Notes
+Ensure this file is added to your `.gitignore` to keep sensitive information secure.
 
-List all notes with optional filters for category, subcategory, tag, and sorting:
+## 🛠️ **Development and Contribution**
 
-```bash
-quicknote list --category work --subcategory team --tag work --sort priority
-```
+We encourage contributions to make `quick-cli-notes` even better! Follow these steps to contribute:
 
-### Editing a Note
+1. **Fork** the repository on GitHub.
+2. **Clone** your fork locally:
 
-Edit an existing note by specifying its ID and the new content:
+   ```bash
+   git clone https://github.com/imankii01/Quick-CLI-Notes
+   ```
 
-```bash
-quicknote edit <id> "Updated note content"
-```
+3. **Create a new branch** for your feature or fix:
 
-### Removing a Note
+   ```bash
+   git checkout -b feature/your-feature
+   ```
 
-Remove a note by specifying its ID:
+4. **Make your changes** and **commit** them:
 
-```bash
-quicknote remove <id>
-```
+   ```bash
+   git commit -am 'Add new feature'
+   ```
 
-### Searching Notes
+5. **Push** to the branch:
 
-Search notes by a query string and optionally filter by date range:
+   ```bash
+   git push origin feature/your-feature
+   ```
 
-```bash
-quicknote search "meeting" --date "2024-09-01 to 2024-09-30"
-```
+6. **Submit a Pull Request** on GitHub to propose your changes.
 
-### Exporting Notes
+## 📜 **License**
 
-Export notes in JSON or CSV format:
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-```bash
-quicknote export --format json
-```
+## 📧 **Contact**
 
-### Importing Notes
+For any questions, feedback, or support, please reach out:
 
-Import notes from a file:
-
-```bash
-quicknote import notes.json
-```
-
-### Integrating with External Services
-
-Integrate with external services such as Google Calendar:
-
-```bash
-quicknote integrate --service google-calendar
-```
-
-## 🔧 Configuration
-
-### `.quicknoterc.json` (Optional)
-
-Customize your settings by creating a `.quicknoterc.json` file in your home directory. This file allows you to adjust theme and language settings:
-
-```json
-{
-  "theme": "light",
-  "language": "en"
-}
-```
-
-## 🧪 Testing
-
-After installation, you can test the CLI tool with the following commands:
-
-```bash
-quicknote add "Sample Note" --tag demo
-quicknote list
-```
-
-Verify that the tool functions as expected and meets your requirements.
-
-## 📚 Documentation
-
-For detailed documentation and additional information about the features, configuration, and usage, please refer to the [GitHub Repository](https://github.com/your-repo/quick-cli-notes) or run:
-
-```bash
-quicknote help
-```
-
-## 🌐 Links
-
-- [NPM Package Page](https://www.npmjs.com/package/quick-cli-notes)
-- [GitHub Repository](https://github.com/your-repo/quick-cli-notes)
-
-## 👤 Author
-
-**Ankit**  
-[LinkedIn](https://linkedin.com/in/imankii01)  
-[Email](mailto:private.ankit047@gmail.com)
-
-## 📢 Contributing
-
-We welcome contributions to enhance Quick CLI Notes! If you have suggestions or improvements, please submit an issue or pull request on our [GitHub Repository](https://github.com/your-repo/quick-cli-notes).
-
-## 🎉 Acknowledgements
-
-Thank you to all the contributors and users for your support and feedback. We hope you find Quick CLI Notes to be a valuable tool for your note management needs.
+- **Name**: Ankit
+- **Email**: [private.ankit047@gmail.com](mailto:private.ankit047@gmail.com)
+- **LinkedIn**: [linkedin.com/in/imankii01](https://linkedin.com/in/imankii01)
 
 ---
 
-This `README.md` is designed to provide a comprehensive and professional overview of your package, with a focus on new features, usage instructions, and additional information. Adjust any section as needed based on your specific requirements or updates.
+This `README.md` file provides a comprehensive and professional overview of the `quick-cli-notes` tool, including detailed descriptions of features, commands, installation steps, configuration, and contribution guidelines. The Table of Contents enhances navigation, and the use of emojis and structured formatting makes the document visually appealing and user-friendly.
