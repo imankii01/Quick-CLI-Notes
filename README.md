@@ -4,7 +4,7 @@
 
 `quick-cli-notes` is a sophisticated command-line interface (CLI) tool for efficient note management and task organization. With a suite of powerful features, this tool is designed to help you stay organized, productive, and in control of your tasks.
 
-## 🚀 **Version 1.1.1**
+## 🚀 **Version 2.0.0**
 
 This version includes new features, enhancements, and fixes to improve your experience with note management.
 
